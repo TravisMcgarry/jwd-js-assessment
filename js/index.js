@@ -7,16 +7,16 @@
   The tasks you need to do are below.
 
     TASKS TODO:
-      1. Calculate the score as the total of the number of correct answers
+      // 1. Calculate the score as the total of the number of correct answers
 
-      2. Add an Event listener for the submit button, which will display the score and highlight 
-         the correct answers when the button is clicked. Use the code from lines 67 to 86 to help you.
+      // 2. Add an Event listener for the submit button, which will display the score and highlight 
+      //    the correct answers when the button is clicked. Use the code from lines 67 to 86 to help you.
 
-      3. Add 2 more questions to the app (each question must have 4 options).
+      ///////////////////// 3. Add 2 more questions to the app (each question must have 4 options).
 
-      4. Reload the page when the reset button is clicked (hint: search window.location)
+      ///////////////////// 4. Reload the page when the reset button is clicked (hint: search window.location)
 
-      5. Add a countdown timer - when the time is up, end the quiz, display the score and highlight the correct answers
+      ////// 5. Add a countdown timer - when the time is up, end the quiz, display the score and highlight the correct answers
 *************************** */
 
 window.addEventListener('DOMContentLoaded', () => {
@@ -44,7 +44,19 @@ window.addEventListener('DOMContentLoaded', () => {
       o: ['Sydney', 'Canberra', 'Melbourne', 'Perth'],
       a: 1,
     },
+    {
+      q: 'Where are the 5 largest deserts in the world?',
+      o: ['Antarctic Desert', 'Arctic Desert', 'Sahara Desert', 'Australian Desert'],
+      a: 0,
+    },
+    {
+      q: 'what are the top 5 biggest animals in the world?',
+      o: ['Blue Whale', 'Colossal Squid', 'African Elephant', 'Giraffe'],
+      a: 0, // array index 1 - so Earth is the correct answer here
+    },
+
   ];
+
 
   // function to Display the quiz questions and answers from the object
   const displayQuiz = () => {
@@ -60,14 +72,18 @@ window.addEventListener('DOMContentLoaded', () => {
                     </ul>
                     <div>&nbsp;</div>`;
       quizWrap.innerHTML = quizDisplay;
+      console.log(index)
     });
   };
 
   // Calculate the score
   const calculateScore = () => {
     let score = 0;
+    let showscore = document.getElementById('score')
     quizArray.map((quizItem, index) => {
       for (let i = 0; i < 4; i++) {
+
+
         //highlight the li if it is the correct answer
         let li = `li_${index}_${i}`;
         let r = `radio_${index}_${i}`;
@@ -75,16 +91,51 @@ window.addEventListener('DOMContentLoaded', () => {
         radioElement = document.querySelector('#' + r);
 
         if (quizItem.a == i) {
-          //change background color of li element here
-        }
+          //change background color of li element here  
+          liElement.style.backgroundColor = 'green';
+          console.log(quizItem.a);
 
-        if (radioElement.checked) {
-          // code for task 1 goes here
+
+          if (radioElement.checked) {
+            // code for task 1 goes here
+            score++
+            console.log("YourCurrentscore", score)
+            // console.log(radioElement.checked)
+          }
         }
       }
     });
+    console.log(`your score is ${score}`);
+    showscore.innerHTML = `your score is ${score}`;
   };
 
+
+
+  //TIMER BELOW
+  function countdown() {
+    var seconds = 60;
+    function tick() {
+      var counter = document.getElementById("counter");
+      seconds--;
+      counter.innerHTML =
+        "0:" + (seconds < 10 ? "0" : "") + String(seconds);
+      if (seconds > 0) {
+        setTimeout(tick, 1000);
+      } else {
+        alert("TIME IS UP ")
+      }
+
+    }
+    tick();
+  }
+  countdown();
+
+
+  let submitBtn = document.querySelector("#btnSubmit")
+  submitBtn.addEventListener("click", calculateScore);
   // call the displayQuiz function
   displayQuiz();
 });
+
+
+
